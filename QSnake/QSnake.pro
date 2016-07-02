@@ -10,11 +10,17 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 TARGET = QSnake
 TEMPLATE = app
-
+RESOURCES +=
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    itemsnake.cpp \
+    snake.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    itemsnake.h \
+    snake.h \
+    direction.h
 
 FORMS    += mainwindow.ui
+RC_FILE = qsnake.rc

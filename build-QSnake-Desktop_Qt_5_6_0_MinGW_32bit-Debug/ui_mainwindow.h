@@ -19,6 +19,7 @@
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QToolBar>
+#include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
 
 QT_BEGIN_NAMESPACE
@@ -27,6 +28,8 @@ class Ui_MainWindow
 {
 public:
     QWidget *centralWidget;
+    QWidget *verticalLayoutWidget;
+    QVBoxLayout *verticalLayout;
     QGraphicsView *graphicsView;
     QMenuBar *menuBar;
     QToolBar *mainToolBar;
@@ -36,17 +39,35 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1200, 900);
+        MainWindow->resize(1190, 894);
         MainWindow->setBaseSize(QSize(1200, 900));
+        MainWindow->setContextMenuPolicy(Qt::CustomContextMenu);
+        QIcon icon;
+        icon.addFile(QStringLiteral("_png.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        MainWindow->setWindowIcon(icon);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
-        graphicsView = new QGraphicsView(centralWidget);
+        centralWidget->setAcceptDrops(true);
+        centralWidget->setLayoutDirection(Qt::LeftToRight);
+        verticalLayoutWidget = new QWidget(centralWidget);
+        verticalLayoutWidget->setObjectName(QStringLiteral("verticalLayoutWidget"));
+        verticalLayoutWidget->setGeometry(QRect(10, 0, 1171, 861));
+        verticalLayout = new QVBoxLayout(verticalLayoutWidget);
+        verticalLayout->setSpacing(6);
+        verticalLayout->setContentsMargins(11, 11, 11, 11);
+        verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        verticalLayout->setContentsMargins(0, 0, 0, 0);
+        graphicsView = new QGraphicsView(verticalLayoutWidget);
         graphicsView->setObjectName(QStringLiteral("graphicsView"));
-        graphicsView->setGeometry(QRect(40, 20, 301, 192));
+        graphicsView->setBaseSize(QSize(1180, 805));
+        graphicsView->setSceneRect(QRectF(0, 0, 1160, 785));
+
+        verticalLayout->addWidget(graphicsView);
+
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
         menuBar->setObjectName(QStringLiteral("menuBar"));
-        menuBar->setGeometry(QRect(0, 0, 1200, 17));
+        menuBar->setGeometry(QRect(0, 0, 1190, 17));
         menuBar->setDefaultUp(true);
         MainWindow->setMenuBar(menuBar);
         mainToolBar = new QToolBar(MainWindow);
@@ -63,7 +84,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "MainWindow", 0));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "QSnake", 0));
     } // retranslateUi
 
 };
