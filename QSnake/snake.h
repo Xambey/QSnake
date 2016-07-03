@@ -3,9 +3,9 @@
 
 #include <QWidget>
 #include <QVector>
-#include "itemsnake.h"
 #include "direction.h"
-
+#include "itemsnake.h"
+class ItemSnake;
 class Snake : public QWidget, public CommonDate
 {
     Q_OBJECT

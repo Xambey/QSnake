@@ -4,18 +4,29 @@
 #include <QAbstractItemModel>
 #include <QtWidgets>
 #include "direction.h"
+#include "snake.h"
 
-class ItemSnake : public QWidget, public CommonDate
+class ItemSnake : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ItemSnake(QGraphicsScene& scene, CommonDate::Direction dir);
+    int GetAngle();
+    void SetAngleItem(int angle);
+
+    explicit ItemSnake(QGraphicsScene& scene);
+    ItemSnake(QGraphicsScene& scene, int startAngle, QVector<ItemSnake*>& body);
 private:
-    CommonDate::Direction direction; //direction snake
-    const int offest;
+    void RotateItem(int angle);
+    void SetAnglePrevItem();
+    const int rate;
+    const int length;
+    int index;
+    int angle;
     QGraphicsScene& scene;
+    QVector<ItemSnake*>* body;
+    QPainter* painter;
 protected:
-    void RenderMode(CommonDate::Direction dir); //render item on the mode
+    void RenderMode(); //render item on the mode
     void paintEvent(QPaintEvent*);
 };
 
