@@ -3,10 +3,9 @@
 
 #include <QWidget>
 #include <QVector>
-#include "direction.h"
 #include "itemsnake.h"
 class ItemSnake;
-class Snake : public QWidget, public CommonDate
+class Snake : public QWidget
 {
     Q_OBJECT
 public:
@@ -14,7 +13,6 @@ public:
 private:
     QGraphicsScene& scene;
     QVector<ItemSnake*> body;
-    CommonDate::Direction direction;
 };
 
 #endif // SNAKE_H

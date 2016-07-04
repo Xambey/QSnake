@@ -15,12 +15,13 @@ RESOURCES +=
 SOURCES += main.cpp\
         mainwindow.cpp \
     itemsnake.cpp \
-    snake.cpp
+    snake.cpp \
+    mapview.cpp
 
 HEADERS  += mainwindow.h \
     itemsnake.h \
     snake.h \
-    direction.h
+    mapview.h
 
 FORMS    += mainwindow.ui
 RC_FILE = qsnake.rc
