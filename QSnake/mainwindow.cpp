@@ -27,10 +27,11 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::resizeEvent(QResizeEvent *)
+void MainWindow::resizeEvent(QResizeEvent *e)
 {
 
     ui->graphicsView->resize(ui->centralWidget->width()-10,ui->centralWidget->height() - 40);
     ui->graphicsView->updateSceneRect(QRectF(0,0,ui->centralWidget->width()-30,ui->centralWidget->height()-60));
     ui->centralWidget->setLayout(ui->verticalLayout);
+    QMainWindow::resizeEvent(e);
 }

@@ -1,7 +1,6 @@
 #ifndef ITEMSNAKE_H
 #define ITEMSNAKE_H
 
-#include <QAbstractItemModel>
 #include <QtWidgets>
 #include "snake.h"
 
@@ -12,11 +11,12 @@ public:
     void SetAngleItem(int angle);
 
     ItemSnake(QGraphicsScene& scene);
-    ItemSnake(QGraphicsScene& scene, int startAngle, QVector<ItemSnake*>& body);
+    ItemSnake(QGraphicsScene& scene, double startAngle, QVector<ItemSnake*>& body);
 private:
     void SetAnglePrevItem();
-    const int length;
-    int angle;
+    int length;
+    double angle;
+    double oldX, oldY;
     QGraphicsScene& scene;
     QVector<ItemSnake*>* body;
 protected:
