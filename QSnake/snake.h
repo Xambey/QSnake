@@ -1,18 +1,22 @@
+#pragma once
 #ifndef SNAKE_H
 #define SNAKE_H
 
-#include <QWidget>
+#include <QtWidgets>
 #include <QVector>
-#include "itemsnake.h"
-class ItemSnake;
-class Snake : public QWidget
+#include "snakebase.h"
+
+class Snake : protected SnakeBase
 {
-    Q_OBJECT
 public:
-    explicit Snake(QGraphicsScene& scene);
+    explicit Snake(QGraphicsView* view);
+    ItemSnake* getPrevItem(ItemSnake *item);
 private:
-    QGraphicsScene& scene;
+    QGraphicsView* view;
     QVector<ItemSnake*> body;
+protected:
 };
+
+
 
 #endif // SNAKE_H

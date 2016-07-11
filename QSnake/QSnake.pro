@@ -16,12 +16,13 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     itemsnake.cpp \
     snake.cpp \
-    mapview.cpp
+    gamesystem.cpp
 
 HEADERS  += mainwindow.h \
     itemsnake.h \
     snake.h \
-    mapview.h
+    snakebase.h \
+    gamesystem.h
 
 FORMS    += mainwindow.ui
 RC_FILE = qsnake.rc

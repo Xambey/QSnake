@@ -1,24 +1,34 @@
+#pragma once
 #ifndef ITEMSNAKE_H
 #define ITEMSNAKE_H
 
 #include <QtWidgets>
-#include "snake.h"
 
+class SnakeBase;
 class ItemSnake : public QGraphicsItem
 {
 public:
-    int GetAngle();
-    void SetAngleItem(int angle);
-
-    ItemSnake(QGraphicsScene& scene);
-    ItemSnake(QGraphicsScene& scene, double startAngle, QVector<ItemSnake*>& body);
+    ItemSnake(SnakeBase* snake);
+    ItemSnake(SnakeBase* snake, qreal startAngle); //create head of snake
 private:
+    inline QPointF getOldPoint() const;
+    inline qreal getAngle() const;
+    void setAngle(qreal angle);
+    SnakeBase* m_snake;
+
     void SetAnglePrevItem();
     int length;
-    double angle;
-    double oldX, oldY;
-    QGraphicsScene& scene;
-    QVector<ItemSnake*>* body;
+    qreal angle;
+    QPointF oldPoint;
+
+    enum Mode{
+        Piece,
+        Head,
+        Tail
+    };
+    Mode mode;
+    bool active;
+
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect() const;

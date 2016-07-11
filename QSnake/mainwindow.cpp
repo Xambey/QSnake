@@ -17,7 +17,8 @@ MainWindow::MainWindow(QWidget *parent) :
 //    ui->graphicsView->resize(ui->centralWidget->width()-10,ui->centralWidget->height() - 40);
 //    ui->centralWidget->setLayout(ui->verticalLayout);
 
-    Snake snake(*scene);
+    scene->setSceneRect(0,0,800,800);
+    snake = new Snake(ui->graphicsView);
 }
 
 MainWindow::~MainWindow()
@@ -30,8 +31,8 @@ MainWindow::~MainWindow()
 void MainWindow::resizeEvent(QResizeEvent *e)
 {
 
-    ui->graphicsView->resize(ui->centralWidget->width()-10,ui->centralWidget->height() - 40);
-    ui->graphicsView->updateSceneRect(QRectF(0,0,ui->centralWidget->width()-30,ui->centralWidget->height()-60));
+    ui->graphicsView->resize(ui->centralWidget->width()-20,ui->centralWidget->height() - 20);
+    //ui->graphicsView->updateSceneRect(QRectF(0,0,ui->centralWidget->width()-30,ui->centralWidget->height()-30));
     ui->centralWidget->setLayout(ui->verticalLayout);
     QMainWindow::resizeEvent(e);
 }

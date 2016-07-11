@@ -1,11 +1,18 @@
 #include "snake.h"
 
-Snake::Snake(QGraphicsScene& scene) : scene(scene)
+Snake::Snake(QGraphicsView *view)
 {
-    scene.setSceneRect(0,0,800,800);
-    //for(int i = 0; i < 3; i++) {
-        ItemSnake* t = new ItemSnake(scene,90,body);
-        scene.addItem(t);
-        t->moveBy(100,100);
-        //}
+    ItemSnake* head = new ItemSnake(20,this);
+    ItemSnake* piece = new ItemSnake(this);
+
+    view->scene()->addItem(head);
+    view->scene()->addItem(piece);
+    head->moveBy(100,100);
+    piece->moveBy(100,102);
+}
+
+ItemSnake* Snake::getPrevItem(ItemSnake *item)
+{
+    if(body.indexOf(item) == body.size()-1) return nullptr;
+    return body.at(body.indexOf(item)+1);
 }

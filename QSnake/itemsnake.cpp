@@ -1,90 +1,109 @@
 #include "itemsnake.h"
 
-int ItemSnake::GetAngle()
+inline qreal ItemSnake::getAngle() const
 {
     return angle;
 }
 
-void ItemSnake::SetAngleItem(int angle)
+void ItemSnake::setAngle(qreal angle)
 {
     this->angle = angle;
 }
 
-ItemSnake::ItemSnake(QGraphicsScene& s):
-                        scene(s),
+ItemSnake::ItemSnake(SnakeBase* snake):
                         length(60),
-                        body(nullptr),
-                        angle(0.0)
+                        angle(0.0),
+                        mode(Mode::Piece),
+                        m_snake(snake),
+                        active(false)
+{
+}
+
+ItemSnake::ItemSnake(SnakeBase* snake, qreal startAngle) :
+                        angle(startAngle),
+                        length(60),
+                        mode(Mode::Head),
+                        m_snake(snake),
+                        active(true)
 
 {
 }
 
-ItemSnake::ItemSnake(QGraphicsScene &s, double startAngle, QVector<ItemSnake *>& vec) :
-                        scene(s),
-                        body(&vec),
-                        angle(startAngle),
-                        length(60)
+inline QPointF ItemSnake::getOldPoint() const
 {
+    return oldPoint;
 }
 
 void ItemSnake::SetAnglePrevItem()
 {
-    angle = body->at(body->indexOf(this) - 1)->GetAngle();
+    angle = m_snake->SnakeBase::getPrevItem(this)->getAngle();
 }
 
 
 void ItemSnake::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    //axis scene
-    scene.addLine(100,0,100,200,QPen(Qt::red));
-    scene.addLine(0,100,200,100,QPen(Qt::red));
-
-    painter->setPen(QPen(Qt::blue, 3, Qt::SolidLine));
-    painter->setBrush(Qt::green);
-
-    //axis painter
-    painter->drawLine(100,0,100,200);
-    painter->drawLine(0,100,200,100);
-
 
     Q_UNUSED(option);
     Q_UNUSED(widget);
+
+    //draw center item, test mode
+    //painter->setPen(QPen(Qt::blue,6,Qt::SolidLine));
+    //painter->drawPoint(QPointF(x(),y()));
+
     //  i-point turn     x-x()     X = i+(x-i)cos(a)-(j-y)sin(a);
     //  j-point turn     y-y()     Y = -j+(x-i)sin(a)+(j-y)cos(a);
-    //new Points
-    QPointF p1(x()+(x() - length/4-x())*cos(angle)+(y()-y())*sin(angle), y()+(x() - length/4-x())*sin(angle)-(y()-y())*cos(angle));
-    QPointF p2(x()+(x() - length/5-x())*cos(angle)+(y() + length/4-y())*sin(angle), y()+(x() - length/5-x())*sin(angle)-(y() + length/4-y())*cos(angle));
-    QPointF p3(x()+(x() + length/14-x())*cos(angle)+(y() + length/4-y())*sin(angle), y()+(x() + length/14-x())*sin(angle)-(y() + length/4-y())*cos(angle));
+
+    if(m_snake->Snake::getPrevItem(this) == nullptr) {
+        mode = Mode::Tail;
+    } else
+        mode = Mode::Piece;
 
 
-    painter->setPen(QPen(Qt::green, 2, Qt::SolidLine));
-    painter->setBrush(Qt::green);
+    switch (mode) {
+    case Mode::Head :
+        painter->setPen(QPen(Qt::green, 2, Qt::SolidLine));
+        painter->setBrush(Qt::green);
 
-    //painter->drawChord(p1.x(),p1.y(),length/2, length,0,16*180);
-    painter->drawLine(QPointF(-length,y()),QPointF(x(),y()));
-    //painter->drawLine(QPointF(x()+(x()-length/2-x())*cos(angle)-(y()-y())*sin(angle),-y()+(x()-length/2-x())*sin(angle)+(y()-y())*cos(angle)),QPointF(x()+(x()+length/2-x())*cos(angle)-(y()-y())*sin(angle),-y()+(x()+length/2-x())*sin(angle)+(y()-y())*cos(angle)));
+        painter->drawChord(x()-length/4,y()-length/2,length/2, length,0,16*180);
 
-    //this->setTransform(QTransform().translate(x()/2,y()/2).rotate(45,Qt::ZAxis).translate(-x()/2,-y()/2));
-    painter->translate(x()/2,y()/2);
-    painter->rotate(45);
-    painter->translate(-x()/2,-y()/2);
+        painter->setPen(QPen(Qt::black));
+        painter->setBrush(Qt::black);
 
-    painter->setPen(QPen(Qt::black));
-    painter->setBrush(Qt::black);
-    painter->drawLine(QPointF(x(),y()),QPointF(x()+length,y()));
+        painter->drawEllipse(QRectF(x()-length/6,y()-length/3,7,7));
+        painter->drawEllipse(QRectF(x()+length/16,y()-length/3,7,7));
+        break;
+    case Mode::Piece :
+        if(active)
+            moveBy(m_snake->Snake::getPrevItem(this)->getOldPoint().x(),m_snake->Snake::getPrevItem(this)->getOldPoint().y());
+        else
+            active = true;
+        painter->setPen(QPen(Qt::green, 2, Qt::SolidLine));
+        painter->drawLine(x()-length/4,y(),x()+length/4,y());
+        SetAnglePrevItem();
+        break;
+    case Mode::Tail :
+        if(active)
+            moveBy(m_snake->Snake::getPrevItem(this)->getOldPoint().x(),m_snake->Snake::getPrevItem(this)->getOldPoint().y());
+        else
+            active = true;
+        painter->setPen(QPen(Qt::green, 2, Qt::SolidLine));
+        painter->setBrush(Qt::green);
+        painter->drawChord(x()-length/4,y()-length/2,length/2, length,180,16*180);
+        SetAnglePrevItem();
+        break;
+    default:
+        //throw "Undefined mode";
+        break;
+    }
 
-    //painter->drawEllipse(QRectF(x()-length/5,y()+length/4,5,5));
-    //painter->drawEllipse(QRectF(p2.x(),p2.y(),5,5));
+    setRotation(angle);
 
-   // painter->drawEllipse(QRectF(p3.x(),p3.y(),5,5));
-    //painter->end();
-
-    oldX = x();
-    oldY = y();
+    oldPoint.setX(x());
+    oldPoint.setY(y());
 }
 
 QRectF ItemSnake::boundingRect() const
 {
-    return QRectF(-length,-length,length,length);
+    return QRectF(QPointF(x()-length/4,y()-length/2),QSize(length/1.5,length/1.5));
 }
 

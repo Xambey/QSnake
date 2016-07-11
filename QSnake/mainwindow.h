@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMainWindow>
 #include <QtWidgets>
 #include "snake.h"
 
@@ -21,6 +22,7 @@ public slots:
 private:
     Ui::MainWindow *ui;
     QGraphicsScene* scene;
+    Snake* snake;
 protected:
     void resizeEvent(QResizeEvent*);
 };
