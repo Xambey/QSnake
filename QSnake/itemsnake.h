@@ -1,4 +1,3 @@
-#pragma once
 #ifndef ITEMSNAKE_H
 #define ITEMSNAKE_H
 
