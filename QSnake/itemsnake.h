@@ -10,7 +10,7 @@ public:
     ItemSnake(SnakeBase* snake);
     ItemSnake(SnakeBase* snake, qreal startAngle); //create head of snake
 private:
-    inline QPointF getOldPoint() const;
+    QPointF* getOldPoint();
     inline qreal getAngle() const;
     void setAngle(qreal angle);
     SnakeBase* m_snake;
