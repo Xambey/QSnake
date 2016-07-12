@@ -2,7 +2,7 @@
 
 Snake::Snake(QGraphicsView *view)
 {
-    ItemSnake* head = new ItemSnake(20,this);
+    ItemSnake* head = new ItemSnake(this,20);
     ItemSnake* piece = new ItemSnake(this);
 
     view->scene()->addItem(head);
