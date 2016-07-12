@@ -2,8 +2,9 @@
 #ifndef SNAKE_H
 #define SNAKE_H
 
-#include <QtWidgets>
+
 #include <QVector>
+#include <QGraphicsView>
 #include "snakebase.h"
 
 class Snake : protected SnakeBase
