@@ -2,5 +2,4 @@
 
 GameSystem::GameSystem()
 {
-
 }

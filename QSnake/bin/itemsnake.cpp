@@ -1,39 +1,65 @@
-#include "itemsnake.h"
-#include "snake.h"
+#include "Include/itemsnake.h"
 #include <QPainter>
+#include <QException>
+#include <QErrorMessage>
 
 inline qreal ItemSnake::getAngle() const
 {
-    return angle;
+    if(angle <= 360 && angle >= 0)
+        return angle;
+    QErrorMessage message;
+    message.setFixedSize(100,100);
+    message.showMessage("Angle not defined");
 }
 
-void ItemSnake::setAngle(qreal angle)
+inline void ItemSnake::setAngle(qreal angle)
 {
     this->angle = angle;
 }
 
-ItemSnake::ItemSnake(SnakeBase* snake):
-                        length(60),
-                        angle(0.0),
-                        mode(Mode::Piece),
-                        m_snake(snake),
-                        active(false)
+void ItemSnake::setOldPoint(qreal x, qreal y)
 {
+    oldPoint.setX(x);
+    oldPoint.setY(y);
 }
 
-ItemSnake::ItemSnake(SnakeBase* snake, qreal startAngle) :
+void ItemSnake::setOldPoint(QPointF point)
+{
+    oldPoint.setX(point.x());
+    oldPoint.setY(point.y());
+}
+
+ItemSnake::ItemSnake(SnakeBase* snake, QPointF p, Mode mode, qreal startAngle = 0):
+                        length(60),
+                        angle(startAngle),
+                        mode(mode),
+                        m_snake(snake),
+                        active(false),
+                        oldPoint(p)
+{
+    setPos(p);
+}
+
+ItemSnake::ItemSnake(SnakeBase* snake, qreal x, qreal y, Mode mode, qreal startAngle = 0) :
                         angle(startAngle),
                         length(60),
-                        mode(Mode::Head),
+                        mode(mode),
                         m_snake(snake),
-                        active(true)
+                        active(true),
+                        oldPoint(x,y)
 
 {
+    setPos(x,y);
 }
 
-QPointF* ItemSnake::getOldPoint()
+inline ItemSnake::Mode ItemSnake::getMode() const
 {
-    return &oldPoint;
+    return mode;
+}
+
+inline QPointF ItemSnake::getOldPoint() const
+{
+    return oldPoint;
 }
 
 void ItemSnake::SetAnglePrevItem()
@@ -55,10 +81,15 @@ void ItemSnake::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     //  i-point turn     x-x()     X = i+(x-i)cos(a)-(j-y)sin(a);
     //  j-point turn     y-y()     Y = -j+(x-i)sin(a)+(j-y)cos(a);
 
-    if(m_snake->getPrevItem(this) == nullptr) {
-        mode = Mode::Tail;
-    } else
-        mode = Mode::Piece;
+    //auto change piece to tail
+    if(active && mode != Mode::Head) {
+        if(m_snake->getPrevItem(this) == nullptr) {
+            mode = Mode::Tail;
+            if(m_snake->getNextItem(this)->getMode() != Mode::Head)
+                m_snake->getNextItem(this)
+        } else
+            mode = Mode::Piece;
+    }
 
 
     switch (mode) {

@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 #include <QMainWindow>
-#include "snake.h"
+#include "Include/snake.h"
 
 namespace Ui {
 class MainWindow;

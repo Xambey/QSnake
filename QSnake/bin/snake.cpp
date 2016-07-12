@@ -1,4 +1,4 @@
-#include "snake.h"
+#include "Include/snake.h"
 
 Snake::Snake(QGraphicsView *view)
 {
@@ -15,4 +15,10 @@ ItemSnake* Snake::getPrevItem(ItemSnake *item)
 {
     if(body.indexOf(item) == body.size()-1) return nullptr;
     return body.at(body.indexOf(item)+1);
+}
+
+ItemSnake *Snake::getNextItem(ItemSnake *item)
+{
+    if(!body.indexOf(item)) return nullptr;
+    return body.at(body.indexOf(item)-1);
 }

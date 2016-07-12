@@ -101,7 +101,7 @@ debug/qsnake_res.o: ../QSnake/qsnake.rc
 	windres -i ..\QSnake\qsnake.rc -o debug\qsnake_res.o --include-dir=./../QSnake $(DEFINES)
 
 qmake: FORCE
-	@$(QMAKE) -spec win32-g++ "CONFIG+=debug" "CONFIG+=qml_debug" -o Makefile.Debug ..\QSnake\QSnake.pro
+	@$(QMAKE) -spec win32-g++ "CONFIG+=qml_debug" "CONFIG+=force_debug_info" "CONFIG+=separate_debug_info" -o Makefile.Debug ..\QSnake\QSnake.pro
 
 qmake_all: FORCE
 
