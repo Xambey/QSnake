@@ -1,7 +1,7 @@
 #ifndef ITEMSNAKE_H
 #define ITEMSNAKE_H
 
-#include <QtWidgets>
+#include <QGraphicsItem>
 
 class SnakeBase;
 class ItemSnake : public QGraphicsItem

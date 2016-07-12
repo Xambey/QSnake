@@ -1,5 +1,6 @@
 #include "itemsnake.h"
-
+#include <snake.h>
+#include <QPainter>
 inline qreal ItemSnake::getAngle() const
 {
     return angle;
@@ -36,7 +37,7 @@ inline QPointF ItemSnake::getOldPoint() const
 
 void ItemSnake::SetAnglePrevItem()
 {
-    angle = m_snake->SnakeBase::getPrevItem(this)->getAngle();
+    angle = m_snake->getPrevItem(this)->getAngle();
 }
 
 
@@ -53,7 +54,7 @@ void ItemSnake::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     //  i-point turn     x-x()     X = i+(x-i)cos(a)-(j-y)sin(a);
     //  j-point turn     y-y()     Y = -j+(x-i)sin(a)+(j-y)cos(a);
 
-    if(m_snake->Snake::getPrevItem(this) == nullptr) {
+    if(m_snake->getPrevItem(this) == nullptr) {
         mode = Mode::Tail;
     } else
         mode = Mode::Piece;
@@ -74,7 +75,7 @@ void ItemSnake::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         break;
     case Mode::Piece :
         if(active)
-            moveBy(m_snake->Snake::getPrevItem(this)->getOldPoint().x(),m_snake->Snake::getPrevItem(this)->getOldPoint().y());
+            moveBy(m_snake->getPrevItem(this)->getOldPoint().x(),m_snake->getPrevItem(this)->getOldPoint().y());
         else
             active = true;
         painter->setPen(QPen(Qt::green, 2, Qt::SolidLine));
@@ -83,7 +84,7 @@ void ItemSnake::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         break;
     case Mode::Tail :
         if(active)
-            moveBy(m_snake->Snake::getPrevItem(this)->getOldPoint().x(),m_snake->Snake::getPrevItem(this)->getOldPoint().y());
+            moveBy(m_snake->getPrevItem(this)->getOldPoint().x(),m_snake->getPrevItem(this)->getOldPoint().y());
         else
             active = true;
         painter->setPen(QPen(Qt::green, 2, Qt::SolidLine));

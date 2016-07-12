@@ -3,7 +3,6 @@
 
 #include <QMainWindow>
 #include <QMainWindow>
-#include <QtWidgets>
 #include "snake.h"
 
 namespace Ui {
