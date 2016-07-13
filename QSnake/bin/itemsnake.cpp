@@ -2,6 +2,7 @@
 #include <QPainter>
 #include <QException>
 #include <QErrorMessage>
+#include "Include/snake.h"
 
 inline qreal ItemSnake::getAngle() const
 {
@@ -29,7 +30,7 @@ void ItemSnake::setOldPoint(QPointF point)
     oldPoint.setY(point.y());
 }
 
-ItemSnake::ItemSnake(SnakeBase* snake, QPointF p, Mode mode, qreal startAngle = 0):
+ItemSnake::ItemSnake(SnakeBase* snake, QPointF p, Mode mode, qreal startAngle):
                         length(60),
                         angle(startAngle),
                         mode(mode),
@@ -40,7 +41,7 @@ ItemSnake::ItemSnake(SnakeBase* snake, QPointF p, Mode mode, qreal startAngle = 
     setPos(p);
 }
 
-ItemSnake::ItemSnake(SnakeBase* snake, qreal x, qreal y, Mode mode, qreal startAngle = 0) :
+ItemSnake::ItemSnake(SnakeBase* snake, qreal x, qreal y, Mode mode, qreal startAngle) :
                         angle(startAngle),
                         length(60),
                         mode(mode),
@@ -52,7 +53,7 @@ ItemSnake::ItemSnake(SnakeBase* snake, qreal x, qreal y, Mode mode, qreal startA
     setPos(x,y);
 }
 
-inline ItemSnake::Mode ItemSnake::getMode() const
+inline Mode ItemSnake::getMode() const
 {
     return mode;
 }
@@ -85,8 +86,8 @@ void ItemSnake::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
     if(active && mode != Mode::Head) {
         if(m_snake->getPrevItem(this) == nullptr) {
             mode = Mode::Tail;
-            if(m_snake->getNextItem(this)->getMode() != Mode::Head)
-                m_snake->getNextItem(this)
+            if(m_snake->getNextItem(this)->getMode() != Mode::Head){}
+                //m_snake->getNextItem(this)
         } else
             mode = Mode::Piece;
     }
@@ -107,7 +108,7 @@ void ItemSnake::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         break;
     case Mode::Piece :
         if(active)
-            moveBy(m_snake->getPrevItem(this)->getOldPoint()->x(),m_snake->getPrevItem(this)->getOldPoint()->y());
+            moveBy(m_snake->getPrevItem(this)->getOldPoint().x(),m_snake->getPrevItem(this)->getOldPoint().y());
         else
             active = true;
         painter->setPen(QPen(Qt::green, 2, Qt::SolidLine));
@@ -116,7 +117,7 @@ void ItemSnake::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         break;
     case Mode::Tail :
         if(active)
-            moveBy(m_snake->getPrevItem(this)->getOldPoint()->x(),m_snake->getPrevItem(this)->getOldPoint()->y());
+            moveBy(m_snake->getPrevItem(this)->getOldPoint().x(),m_snake->getPrevItem(this)->getOldPoint().y());
         else
             active = true;
         painter->setPen(QPen(Qt::green, 2, Qt::SolidLine));

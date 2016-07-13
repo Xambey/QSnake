@@ -6,6 +6,7 @@
 #include <QVector>
 #include <QGraphicsView>
 #include "snakebase.h"
+#include "mode.h"
 
 class Snake : protected SnakeBase
 {

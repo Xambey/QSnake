@@ -1,7 +1,7 @@
 #ifndef GAMESYSTEM_H
 #define GAMESYSTEM_H
 
-#include "snake.h"
+#include "Include/snake.h"
 
 //managment class
 class GameSystem
