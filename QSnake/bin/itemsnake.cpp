@@ -58,6 +58,11 @@ inline Mode ItemSnake::getMode() const
     return mode;
 }
 
+void ItemSnake::setMode(Mode mode)
+{
+    this->mode = mode;
+}
+
 inline QPointF ItemSnake::getOldPoint() const
 {
     return oldPoint;
@@ -65,7 +70,10 @@ inline QPointF ItemSnake::getOldPoint() const
 
 void ItemSnake::SetAnglePrevItem()
 {
-    angle = m_snake->getPrevItem(this)->getAngle();
+    if(active)
+        angle = m_snake->getNextItem(this)->getAngle();
+    else
+        active = true;
 }
 
 
@@ -84,17 +92,20 @@ void ItemSnake::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
 
     //auto change piece to tail
     if(active && mode != Mode::Head) {
-        if(m_snake->getPrevItem(this) == nullptr) {
+        if(m_snake->getNextItem(this) == nullptr) {
             mode = Mode::Tail;
-            if(m_snake->getNextItem(this)->getMode() != Mode::Head){}
-                //m_snake->getNextItem(this)
-        } else
+            m_snake->getPrevItem(this)->setMode(Mode::Tail);
+        }
+        else if(m_snake->getPrevItem(this) == nullptr)
+            m_snake->getNextItem(this)->setMode(Mode::Piece);
+        else
             mode = Mode::Piece;
     }
 
 
     switch (mode) {
     case Mode::Head :
+        moveBy(oldPoint.x(),oldPoint.y());
         painter->setPen(QPen(Qt::green, 2, Qt::SolidLine));
         painter->setBrush(Qt::green);
 
@@ -108,18 +119,18 @@ void ItemSnake::paint(QPainter *painter, const QStyleOptionGraphicsItem *option,
         break;
     case Mode::Piece :
         if(active)
-            moveBy(m_snake->getPrevItem(this)->getOldPoint().x(),m_snake->getPrevItem(this)->getOldPoint().y());
+            moveBy(m_snake->getNextItem(this)->getOldPoint().x(),m_snake->getNextItem(this)->getOldPoint().y());
         else
-            active = true;
+            moveBy(oldPoint.x(),oldPoint.y());
         painter->setPen(QPen(Qt::green, 2, Qt::SolidLine));
         painter->drawLine(x()-length/4,y(),x()+length/4,y());
         SetAnglePrevItem();
         break;
     case Mode::Tail :
         if(active)
-            moveBy(m_snake->getPrevItem(this)->getOldPoint().x(),m_snake->getPrevItem(this)->getOldPoint().y());
+            moveBy(m_snake->getNextItem(this)->getOldPoint().x(),m_snake->getNextItem(this)->getOldPoint().y());
         else
-            active = true;
+            moveBy(oldPoint.x(),oldPoint.y());
         painter->setPen(QPen(Qt::green, 2, Qt::SolidLine));
         painter->setBrush(Qt::green);
         painter->drawChord(x()-length/4,y()-length/2,length/2, length,180,16*180);

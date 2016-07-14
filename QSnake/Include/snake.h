@@ -14,8 +14,8 @@ public:
     explicit Snake(QGraphicsView* view);
 
     // next is direction to Head, prev is direction from Head
-    ItemSnake* getPrevItem(ItemSnake *item);
     ItemSnake* getNextItem(ItemSnake *item);
+    ItemSnake* getPrevItem(ItemSnake *item);
 private:
     QGraphicsView* view;
     QVector<ItemSnake*> body;

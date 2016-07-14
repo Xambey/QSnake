@@ -27,9 +27,7 @@ HEADERS  += \
     System/gamesystem.h \
     Include/mode.h
 
-DISTFILES += \
-    Resources/_png.ico \
-    Resources/qsnake.rc
-
 FORMS += \
     Gui/mainwindow.ui
+
+RC_FILE = Resources/qsnake.rc

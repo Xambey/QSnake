@@ -42,8 +42,9 @@ public:
         MainWindow->resize(1190, 894);
         MainWindow->setBaseSize(QSize(1200, 900));
         MainWindow->setContextMenuPolicy(Qt::CustomContextMenu);
+        MainWindow->setAcceptDrops(false);
         QIcon icon;
-        icon.addFile(QStringLiteral("_png.ico"), QSize(), QIcon::Normal, QIcon::Off);
+        icon.addFile(QStringLiteral("../_png.ico"), QSize(), QIcon::Normal, QIcon::Off);
         MainWindow->setWindowIcon(icon);
         centralWidget = new QWidget(MainWindow);
         centralWidget->setObjectName(QStringLiteral("centralWidget"));

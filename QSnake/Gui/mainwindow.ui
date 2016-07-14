@@ -19,12 +19,15 @@
   <property name="contextMenuPolicy">
    <enum>Qt::CustomContextMenu</enum>
   </property>
+  <property name="acceptDrops">
+   <bool>false</bool>
+  </property>
   <property name="windowTitle">
    <string>QSnake</string>
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>_png.ico</normaloff>_png.ico</iconset>
+    <normaloff>../_png.ico</normaloff>../_png.ico</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="acceptDrops">

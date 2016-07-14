@@ -7,8 +7,8 @@
 class SnakeBase
 {
 public:
-    virtual ItemSnake* getPrevItem(ItemSnake* item) = 0;
     virtual ItemSnake* getNextItem(ItemSnake* item) = 0;
+    virtual ItemSnake* getPrevItem(ItemSnake* item) = 0;
 };
 
 #endif // SNAKEBASE_H

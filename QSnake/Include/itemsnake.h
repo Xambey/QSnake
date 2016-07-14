@@ -13,6 +13,7 @@ public:
     ItemSnake(SnakeBase* snake, qreal x, qreal y, Mode mode, qreal startAngle); //create head of snake
 
     inline Mode getMode() const;
+    inline void setMode(Mode mode);
     inline QPointF getOldPoint() const;
     inline qreal getAngle() const;
     inline void setAngle(qreal angle);
